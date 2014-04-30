@@ -211,6 +211,26 @@ var _ = {};
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+
+    iterator = iterator || _.identity;
+    
+    var result = _.reduce(collection, function(someTrue, value) {
+      if (someTrue) {
+        return true;
+      }
+      return iterator(value) || someTrue;
+    }, false);
+
+    return result != false;
+
+    // var result = _.reduce(collection, function(someTrue, value) {
+    //   if (someTrue) {
+    //     return true;
+    //   }
+    //   return iterator(value); // this might return undefined or null w/o the || operator
+    // }, false);
+
+    // return result != false; // undefined != false return true, same with null != false
   };
 
 
