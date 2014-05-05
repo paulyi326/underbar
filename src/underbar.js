@@ -212,11 +212,11 @@ var _ = {};
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
     iterator = iterator || _.identity;
-    
-    var result = _.every(collection, function(value) {
+
+    var result = _.every(collection, function(value) { // result will equal true if every value in collection is false
       return !iterator(value);
     });
-    return !result;
+    return !result;                                    // then !result is true if at least one value is true
 
     // var result = _.reduce(collection, function(someTrue, value) {
     //   if (someTrue) {
@@ -257,11 +257,32 @@ var _ = {};
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    // for (var i = 1; i < arguments.lenth; i++) { // why doesn't this implementation work?
+    //   var other = arguments[i];
+    //   for (var key in other) {
+    //     obj[key] = other[key];
+    //   }
+    // }
+
+    for (var i = 1; i < arguments.length; i++) {
+      _.each(arguments[i], function(value, key) {
+        obj[key] = value;
+      });
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    for (var i = 1; i < arguments.length; i++) {
+      _.each(arguments[i], function(value, key) {
+        if (!obj.hasOwnProperty(key)) {
+          obj[key] = value;
+        }
+      });
+    }
+    return obj;
   };
 
 
@@ -303,6 +324,15 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+     var memoized = {};
+
+    return function(value) {
+      if (!memoized.hasOwnProperty(value)) {
+        memoized[value] = func(value);
+      }
+      return memoized[value];
+    };
+  
   };
 
   // Delays a function for the given number of milliseconds, and then calls
