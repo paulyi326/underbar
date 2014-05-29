@@ -461,7 +461,7 @@ var _ = {};
       var element = longestArray[i];
       var containedInAll = true;
       for (var j = 0; j < arguments.length; j++) {
-        containedInAll = _.contains(arguments[i], element) && containedInAll;
+        containedInAll = _.contains(arguments[j], element) && containedInAll;
       }
       if (containedInAll) {
         result.push(element);
@@ -473,6 +473,18 @@ var _ = {};
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var result = [];
+    for (var i = 0; i < array.length; i++) {
+      var element = array[i];
+      var notContained = true;
+      for (var j = 1; j < arguments.length; j++) {
+        notContained = !_.contains(arguments[j], element) && notContained;
+      }
+      if (notContained) {
+        result.push(element);
+      }
+    }
+    return result;
   };
 
 
