@@ -432,7 +432,19 @@ var _ = {};
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+    return _.flattenHelper(nestedArray, []);
   };
+
+  _.flattenHelper = function(element, result) {
+    if (!Array.isArray(element)) {
+      result.push(element);
+    } else {
+      for (var i = 0; i < element.length; i++) {
+        _.flattenHelper(element[i], result);
+      }
+    }
+    return result;
+  }
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
