@@ -205,13 +205,13 @@ var _ = {};
     iterator = iterator || _.identity; // for when callback function not provided
 
     var result = _.reduce(collection, function(allTrue, value) {
-      if (!allTrue) { // if allTrue is undefined, !allTrue returns true so it goes into the if case
+      if (!allTrue) {
         return false;
       } 
       return iterator(value);
     }, true);
 
-    return result != false;
+    return result == true;
 
     // return _.reduce(collection, function(allTrue, value) { // This also works but maybe not so readable
     //   if (!allTrue) {
