@@ -449,6 +449,25 @@ var _ = {};
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+    var result = [];
+    var longestArray = arguments[0];
+    for (var i = 1; i < arguments.length; i++) {
+      if (arguments[i].length > longestArray.length) {
+        longestArray = arguments[i];
+      }
+    }
+
+    for (var i = 0; i < longestArray.length; i++) {
+      var element = longestArray[i];
+      var containedInAll = true;
+      for (var j = 0; j < arguments.length; j++) {
+        containedInAll = _.contains(arguments[i], element) && containedInAll;
+      }
+      if (containedInAll) {
+        result.push(element);
+      }
+    }
+    return result;
   };
 
   // Take the difference between one array and a number of other arrays.
