@@ -212,14 +212,6 @@ var _ = {};
     }, true);
 
     return result == true;
-
-    // return _.reduce(collection, function(allTrue, value) { // This also works but maybe not so readable
-    //   if (!allTrue) {
-    //     return false;
-    //   } 
-    //   return iterator(value) == undefined ? false : iterator(value) != false;
-    // }, true);
-    // return result != false;
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -272,12 +264,13 @@ var _ = {};
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    // for (var i = 1; i < arguments.lenth; i++) { // why doesn't this implementation work?
+    // for (var i = 1; i < arguments.length; i++) {
     //   var other = arguments[i];
     //   for (var key in other) {
     //     obj[key] = other[key];
     //   }
     // }
+    // return obj;
 
     for (var i = 1; i < arguments.length; i++) {
       _.each(arguments[i], function(value, key) {
@@ -379,13 +372,13 @@ var _ = {};
     var randomIndex;
     var temp;
 
-    for (var i = shuffledArray.length; i > 0; i--) {
+    for (var i = shuffledArray.length - 1; i >= 0; i--) {
       // find random element to move to back
-      randomIndex = Math.floor(Math.random() * i);
+      randomIndex = Math.round(Math.random() * i); // i is index of last unshuffled element
 
       // swap element at randomIndex with last unshuffled element
-      temp = shuffledArray[i - 1];
-      shuffledArray[i - 1] = shuffledArray[randomIndex];
+      temp = shuffledArray[i];
+      shuffledArray[i] = shuffledArray[randomIndex];
       shuffledArray[randomIndex] = temp;
     }
 
