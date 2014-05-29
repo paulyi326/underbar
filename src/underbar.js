@@ -144,6 +144,15 @@ var _ = {};
   // Calls the method named by methodName on each value in the list.
   // Note: you will nead to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+
+
+    // if (typeof functionOrKey !== "function") {
+    //   functionOrKey = ''[functionOrKey]; // why doesn't functionOrKey = window[functionOrKey] work?
+    // }
+    // return _.map(collection, function(value) {
+    //   return functionOrKey.apply(value, args);
+    // });
+
     return _.map(collection, function(val) {
       if (typeof functionOrKey !== "function") {
         functionOrKey = val[functionOrKey];
@@ -166,8 +175,14 @@ var _ = {};
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
+    var noInitialValue = arguments.length <= 2;
     _.each(collection, function(value) {
-      accumulator = iterator(accumulator, value);
+      if (noInitialValue) {
+        accumulator = value;
+        noInitialValue = false;
+      } else {
+        accumulator = iterator(accumulator, value);
+      }
     });
     return accumulator;
   };
